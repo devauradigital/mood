@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMirror | Your Personal Growth Journal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lavender: #e2d4f0;
+            --cream: #f9f9f5;
+            --teal: #9fd8d6;
+            --soft-blue: #d4e7f7;
+            --deep-purple: #5e2a84;
+            --gold: #f5d742;
+            --text-primary: #333344;
+            --text-secondary: #666677;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .bg-lavender {
+            background-color: var(--lavender);
+        }
+        
+        .bg-teal {
+            background-color: var(--teal);
+        }
+        
+        .bg-soft-blue {
+            background-color: var(--soft-blue);
+        }
+        
+        .text-deep-purple {
+            color: var(--deep-purple);
+        }
+        
+        .border-deep-purple {
+            border-color: var(--deep-purple);
+        }
+        
+        .bg-gold {
+            background-color: var(--gold);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .dark {
+            --lavender: #4a3a6b;
+            --cream: #1a1a2e;
+            --teal: #166d6a;
+            --soft-blue: #1e3a8a;
+            --deep-purple: #b694f4;
+            --gold: #f6e05e;
+            color: #e2e8f0;
+        }
+        
+        .dark .bg-lavender {
+            background-color: var(--lavender);
+        }
+        
+        .dark .bg-teal {
+            background-color: var(--teal);
+        }
+        
+        .dark .bg-soft-blue {
+            background-color: var(--soft-blue);
+        }
+        
+        .dark .text-deep-purple {
+            color: var(--deep-purple);
+        }
+        
+        .dark .bg-gold {
+            background-color: var(--gold);
+        }
+        
+        .mood-emoji {
+            transition: all 0.3s ease;
+        }
+        
+        .mood-emoji:hover {
+            transform: scale(1.2);
+        }
+        
+        .typing-effect {
+            border-right: 2px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(40) 1s 1 normal both, blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--deep-purple) }
+        }
+        
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .success-checkmark .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid var(--deep-purple);
+        }
+        
+        .success-checkmark .check-icon::before {
+            top: 3px;
+            left: -2px;
+            width: 30px;
+            transform-origin: 100% 50%;
+            border-radius: 100px 0 0 100px;
+        }
+        
+        .success-checkmark .check-icon::after {
+            top: 0;
+            left: 30px;
+            width: 60px;
+            transform-origin: 0 50%;
+            border-radius: 0 100px 100px 0;
+            animation: rotate-circle 4.25s ease-in;
+        }
+        
+        .success-checkmark .check-icon::before, .success-checkmark .check-icon::after {
+            content: '';
+            height: 100px;
+            position: absolute;
+            background: transparent;
+            transform: rotate(-45deg);
+        }
+        
+        .success-checkmark .check-icon .icon-line {
+            height: 5px;
+            background-color: var(--deep-purple);
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            z-index: 10;
+        }
+        
+        .success-checkmark .check-icon .icon-line.line-tip {
+            top: 46px;
+            left: 14px;
+            width: 25px;
+            transform: rotate(45deg);
+            animation: icon-line-tip 0.75s;
+        }
+        
+        .success-checkmark .check-icon .icon-line.line-long {
+            top: 38px;
+            right: 8px;
+            width: 47px;
+            transform: rotate(-45deg);
+            animation: icon-line-long 0.75s;
+        }
+        
+        @keyframes icon-line-tip {
+            0% { width: 0; left: 1px; top: 19px; }
+            54% { width: 0; left: 1px; top: 19px; }
+            70% { width: 50px; left: -8px; top: 37px; }
+            84% { width: 17px; left: 21px; top: 48px; }
+            100% { width: 25px; left: 14px; top: 46px; }
+        }
+        
+        @keyframes icon-line-long {
+            0% { width: 0; right: 46px; top: 54px; }
+            65% { width: 0; right: 46px; top: 54px; }
+            84% { width: 55px; right: 0px; top: 35px; }
+            100% { width: 47px; right: 8px; top: 38px; }
+        }
+        
+        @keyframes rotate-circle {
+            0% { transform: rotate(-45deg); }
+            5% { transform: rotate(-45deg); }
+            12% { transform: rotate(-405deg); }
+            100% { transform: rotate(-405deg); }
+        }
+
+        .wave {
+            display: inline-block;
+            animation: waveAnimation 2s infinite;
+        }
+
+        @keyframes waveAnimation {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-20deg); }
+        }
+
+        /* Enhanced Responsive Styles */
+        @media (max-width: 640px) {
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .text-3xl {
+                font-size: 1.75rem;
+            }
+
+            .text-2xl {
+                font-size: 1.5rem;
+            }
+
+            .text-xl {
+                font-size: 1.25rem;
+            }
+
+            .mood-emoji {
+                padding: 0.5rem;
+                font-size: 1.25rem;
+            }
+
+            .success-checkmark {
+                width: 60px;
+                height: 60px;
+            }
+
+            .success-checkmark .check-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .success-checkmark .check-icon .icon-line.line-tip {
+                top: 34px;
+                left: 10px;
+                width: 18px;
+            }
+
+            .success-checkmark .check-icon .icon-line.line-long {
+                top: 28px;
+                right: 6px;
+                width: 35px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-cols-7 {
+                gap: 0.5rem;
+            }
+
+            .grid-cols-7 > div {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #moodTrendChart {
+                width: 100% !important;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm py-4 px-4 sm:px-6 fixed w-full z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                    <i class="fas fa-brain text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-deep-purple dark:text-purple-300">MindMirror</span>
+            </div>
+            <div>
+                <button id="darkModeToggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-moon text-gray-600 dark:text-yellow-300"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-12 px-4 sm:px-6 max-w-6xl mx-auto">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="mb-12 sm:mb-16 slide-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Hello, <span id="userName">Friend</span> <span class="wave">👋</span></h1>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base">How are you feeling today?</p>
+                    </div>
+                    <div class="mt-4 sm:mt-0">
+                        <button onclick="scrollToReflect()" class="bg-deep-purple hover:bg-purple-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center">
+                            <i class="fas fa-pen mr-2"></i> Start Reflection
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <!-- Today's Mood -->
+                    <div class="bg-lavender/80 dark:bg-purple-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all">
+                        <h3 class="font-medium text-deep-purple dark:text-purple-200 mb-4 flex items-center gap-2">
+                            <i class="fas fa-heart"></i> Today's Mood
+                        </h3>
+                        <div id="todayMood" class="flex flex-col justify-center items-center h-32 sm:h-40">
+                            <div class="text-5xl sm:text-6xl mb-3">🤔</div>
+                            <p class="text-gray-600 dark:text-gray-300 italic text-center text-sm sm:text-base">No reflection yet today</p>
+                            <button onclick="scrollToReflect()" class="mt-3 text-sm bg-white/70 dark:bg-gray-700/70 text-deep-purple dark:text-purple-200 px-4 py-1.5 rounded-full hover:bg-white dark:hover:bg-gray-600 transition-all">
+                                Add Reflection
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Weekly Summary -->
+                    <div class="bg-teal/80 dark:bg-teal-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all">
+                        <h3 class="font-medium text-teal-900 dark:text-teal-200 mb-4 flex items-center gap-2">
+                            <i class="fas fa-chart-line"></i> Weekly Trends
+                        </h3>
+                        <div class="h-32 sm:h-40">
+                            <canvas id="weeklyMoodChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Daily Affirmation -->
+                    <div class="bg-soft-blue/80 dark:bg-blue-900/80 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/20 shadow-sm hover:shadow-md transition-all">
+                        <h3 class="font-medium text-blue-900 dark:text-blue-200 mb-4 flex items-center gap-2">
+                            <i class="fas fa-sparkles"></i> Daily Affirmation
+                        </h3>
+                        <div class="h-32 sm:h-40 flex flex-col justify-center">
+                            <p id="dailyAffirmation" class="font-serif italic text-gray-800 dark:text-gray-200 text-center px-2 text-sm sm:text-base">"Every day is a new opportunity to grow and learn."</p>
+                            <button onclick="generateAffirmation()" class="mt-4 text-sm bg-white/70 dark:bg-gray-700/70 text-deep-purple dark:text-blue-200 px-4 py-1.5 rounded-full hover:bg-white dark:hover:bg-gray-600 transition-all mx-auto">
+                                New Affirmation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Reflections -->
+                <div class="mt-6 sm:mt-8">
+                    <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Recent Reflections</h2>
+                    <div id="recentReflections" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Reflections will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Reflect Section -->
+        <section id="reflect" class="mb-12 sm:mb-16 slide-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Daily Reflection</h2>
+                
+                <div id="reflectionForm" class="space-y-6">
+                    <div>
+                        <h3 id="reflectionPrompt" class="text-base sm:text-lg font-medium text-gray-700 dark:text-gray-300 mb-3">What moment made you smile today?</h3>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-4">Take a minute to reflect on your day. This helps build self-awareness over time.</p>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-300 mb-2 text-sm sm:text-base">How are you feeling?</label>
+                            <div class="flex flex-wrap gap-2 sm:gap-4">
+                                <button onclick="selectMood('happy')" class="mood-emoji p-2 sm:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-yellow-100 dark:hover:bg-yellow-900">
+                                    😄
+                                </button>
+                                <button onclick="selectMood('neutral')" class="mood-emoji p-2 sm:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-blue-900">
+                                    😐
+                                </button>
+                                <button onclick="selectMood('sad')" class="mood-emoji p-2 sm:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-blue-200 dark:hover:bg-blue-800">
+                                    😢
+                                </button>
+                                <button onclick="selectMood('angry')" class="mood-emoji p-2 sm:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-red-100 dark:hover:bg-red-900">
+                                    😡
+                                </button>
+                                <button onclick="selectMood('tired')" class="mood-emoji p-2 sm:p-3 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-purple-100 dark:hover:bg-purple-900">
+                                    😴
+                                </button>
+                            </div>
+                            <input type="hidden" id="selectedMood" value="">
+                        </div>
+                        
+                        <div class="mb-4 relative">
+                            <label for="reflectionText" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium text-sm sm:text-base">Your Reflection</label>
+                            <textarea id="reflectionText" rows="4 sm:rows-6" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-deep-purple/50 focus:border-transparent dark:bg-gray-700/50 dark:text-gray-200 transition-all backdrop-blur-sm bg-white/70" placeholder="Write freely for 1 minute..."></textarea>
+                            <div class="absolute bottom-3 right-3 flex items-center gap-2">
+                                <button class="text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 transition-colors" title="Voice input">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 transition-colors" title="Format text">
+                                    <i class="fas fa-bold"></i>
+                                </button>
+                            </div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Tip: Try writing without overthinking</div>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <button onclick="newPrompt()" class="text-deep-purple dark:text-purple-300 hover:underline flex items-center text-sm sm:text-base">
+                                <i class="fas fa-sync-alt mr-2"></i> New Prompt
+                            </button>
+                            <button onclick="submitReflection()" class="bg-deep-purple hover:bg-purple-800 text-white px-4 sm:px-6 py-2 rounded-full font-medium transition-colors">
+                                Submit Reflection
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="reflectionSuccess" class="hidden text-center py-8 sm:py-12">
+                    <div class="success-checkmark">
+                        <div class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                        </div>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6">Reflection Saved!</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm sm:text-base">You're building a powerful habit of self-awareness.</p>
+                    <button onclick="resetReflectionForm()" class="mt-6 bg-deep-purple hover:bg-purple-800 text-white px-4 sm:px-6 py-2 rounded-full font-medium transition-colors">
+                        Write Another
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Insights Section -->
+        <section id="insights" class="mb-12 sm:mb-16 slide-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Your Insights</h2>
+                
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 sm:p-6">
+                    <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-4 text-base sm:text-lg">Mood Trends</h3>
+                    <div class="h-48 sm:h-64 lg:h-80">
+                        <canvas id="moodTrendChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="bg-lavender dark:bg-purple-900 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 text-base sm:text-lg">Most Reflective Day</h3>
+                        <p id="mostReflectiveDay" class="text-2xl sm:text-3xl font-bold text-deep-purple dark:text-purple-300">Friday</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">You write the most on this day</p>
+                    </div>
+                    
+                    <div class="bg-teal dark:bg-teal-900 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 text-base sm:text-lg">Current Streak</h3>
+                        <p id="currentStreak" class="text-2xl sm:text-3xl font-bold text-teal-800 dark:text-teal-300">3 days</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">Keep going!</p>
+                    </div>
+                    
+                    <div class="bg-soft-blue dark:bg-blue-900 rounded-xl p-4 sm:p-6">
+                        <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2 text-base sm:text-lg">Self-Awareness Score</h3>
+                        <p id="awarenessScore" class="text-2xl sm:text-3xl font-bold text-blue-800 dark:text-blue-300">78/100</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs sm:text-sm">Based on reflection depth and consistency</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Calendar Section -->
+        <section id="calendar" class="mb-12 sm:mb-16 slide-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Mood Calendar</h2>
+                
+                <div class="mb-6 flex justify-between items-center">
+                    <div>
+                        <h3 id="currentMonthYear" class="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">July 2025</h3>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="prevMonth()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-chevron-left text-gray-600 dark:text-gray-300"></i>
+                        </button>
+                        <button onclick="nextMonth()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-chevron-right text-gray-600 dark:text-gray-300"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-7 gap-1 sm:gap-2 mb-2">
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Sun</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Mon</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Tue</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Wed</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Thu</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Fri</div>
+                    <div class="text-center font-medium text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Sat</div>
+                </div>
+                
+                <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2">
+                    <!-- Calendar days will be added here dynamically -->
+                </div>
+                
+                <!-- Mood Legend -->
+                <div class="mt-6 flex flex-wrap gap-3 justify-center">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-yellow-300 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Happy</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-blue-300 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Neutral</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-blue-500 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Sad</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-red-400 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Angry</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-purple-400 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Tired</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 rounded-full bg-gray-200 dark:bg-gray-600 mr-2"></div>
+                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">No data</span>
+                    </div>
+                </div>
+                
+                <!-- Selected Day Reflection -->
+                <div id="dayReflection" class="mt-6 sm:mt-8 hidden bg-gray-50 dark:bg-gray-700 rounded-xl p-4 sm:p-6">
+                    <h3 id="selectedDayTitle" class="font-semibold text-gray-800 dark:text-gray-200 mb-4 text-base sm:text-lg">July 15, 2025</h3>
+                    <div class="flex items-center mb-4">
+                        <div id="selectedDayMood" class="w-6 sm:w-8 h-6 sm:h-8 rounded-full bg-yellow-300 flex items-center justify-center mr-3 text-sm sm:text-base">😄</div>
+                        <span id="selectedDayMoodText" class="text-gray-700 dark:text-gray-300 text-sm sm:text-base">Happy</span>
+                    </div>
+                    <p id="selectedDayReflection" class="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Today was a great day! I had a wonderful lunch with friends and finished an important project.</p>
+                    <p id="selectedDayAffirmation" class="mt-4 font-serif italic text-gray-700 dark:text-gray-300 text-sm sm:text-base">"Joy comes from appreciating the small moments."</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Affirmations Section -->
+        <section id="affirmations" class="mb-12 sm:mb-16 slide-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Personalized Affirmations</h2>
+                
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900 dark:to-blue-900 rounded-xl p-6 sm:p-8 text-center">
+                    <div class="max-w-2xl mx-auto">
+                        <div id="affirmationDisplay" class="min-h-24 sm:min-h-32 flex items-center justify-center relative">
+                            <p id="affirmationText" class="text-lg sm:text-xl md:text-2xl font-serif italic text-gray-800 dark:text-gray-200 text-center px-4">"You are capable of amazing things."</p>
+                            <p id="affirmationLoading" class="hidden text-lg sm:text-xl md:text-2xl font-serif italic text-gray-800 dark:text-gray-200 text-center px-4">
+                                <span class="flex items-center justify-center space-x-2">
+                                    <span>Generating your affirmation...</span>
+                                    <span class="animate-pulse flex space-x-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-800 dark:bg-gray-200"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-800 dark:bg-gray-200" style="animation-delay: 0.2s"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-gray-800 dark:bg-gray-200" style="animation-delay: 0.4s"></span>
+                                    </span>
+                                </span>
+                            </p>
+                        </div>
+                        
+                        <div class="mt-6 sm:mt-8">
+                            <button onclick="generateAffirmation()" class="bg-deep-purple hover:bg-purple-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-colors flex items-center mx-auto">
+                                <i class="fas fa-magic mr-2"></i> Generate Affirmation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 py-6 sm:py-8 px-4 sm:px-6 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+                <div class="mb-4 sm:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold text-deep-purple dark:text-purple-300">MindMirror</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm">Your personal growth companion</p>
+                </div>
+                
+                <div class="flex space-x-4 sm:space-x-6">
+                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 transition-colors">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row justify-between items-center">
+                <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm mb-4 sm:mb-0">© 2025 MindMirror. All rights reserved.</p>
+                <div class="flex space-x-4 sm:space-x-6">
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 text-xs sm:text-sm transition-colors">Privacy</a>
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 text-xs sm:text-sm transition-colors">Terms</a>
+                    <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-deep-purple dark:hover:text-purple-300 text-xs sm:text-sm transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Utility function to safely get DOM elements
+        function getElement(id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                console.warn(`Element with ID "${id}" not found`);
+            }
+            return element;
+        }
+
+        // Check if external dependencies are loaded
+        function checkDependencies() {
+            if (!window.Chart) {
+                console.warn('Chart.js not loaded. Charts will not be displayed.');
+                return false;
+            }
+            return true;
+        }
+
+        // Format date to local YYYY-MM-DD
+        function formatLocalDate(date) {
+            return date.toLocaleDateString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').join('-');
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check for dark mode preference
+            try {
+                if (
+                    localStorage.getItem('darkMode') === 'true' ||
+                    (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+                ) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {
+                console.warn('Error checking dark mode preference:', e);
+            }
+
+            // Initialize user data if not exists
+            try {
+                if (!localStorage.getItem('mindMirrorUser')) {
+                    const defaultUser = {
+                        name: 'Friend',
+                        reflections: [],
+                        affirmations: [
+                            "Every day is a new opportunity to grow and learn.",
+                            "You are capable of amazing things.",
+                            "Your feelings are valid and important.",
+                        ],
+                        settings: {
+                            darkMode: document.documentElement.classList.contains('dark'),
+                            reminderTime: '20:00',
+                        },
+                    };
+                    localStorage.setItem('mindMirrorUser', JSON.stringify(defaultUser));
+                }
+            } catch (e) {
+                console.warn('Error initializing user data:', e);
+                alert('Unable to initialize user data. Some features may not work.');
+            }
+
+            // Load user data and initialize UI
+            try {
+                loadUserData();
+                updateCalendar();
+                renderRecentReflections();
+                if (checkDependencies()) {
+                    initCharts();
+                }
+            } catch (e) {
+                console.warn('Error during app initialization:', e);
+            }
+
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        // Load user data and update UI
+        function loadUserData() {
+            let userData;
+            try {
+                const storedData = localStorage.getItem('mindMirrorUser');
+                userData = storedData ? JSON.parse(storedData) : null;
+                if (!userData) throw new Error('No user data found');
+            } catch (e) {
+                console.warn('Error loading user data:', e);
+                return;
+            }
+
+            const userNameElement = getElement('userName');
+            if (userNameElement) {
+                userNameElement.textContent = userData.name || 'Friend';
+            }
+
+            const today = formatLocalDate(new Date());
+            const todayReflection = userData.reflections.find((r) => r.date === today);
+
+            if (todayReflection) {
+                displayTodayMood(todayReflection.mood);
+            }
+        }
+
+        // Display today's mood
+        function displayTodayMood(mood) {
+            const moodContainer = getElement('todayMood');
+            if (!moodContainer) return;
+
+            const moodEmoji = getMoodEmoji(mood);
+            const moodText = getMoodText(mood);
+
+            moodContainer.innerHTML = `
+                <div class="text-center">
+                    <div class="text-5xl mb-2">${moodEmoji}</div>
+                    <p class="text-gray-700 dark:text-gray-300 font-medium">${moodText}</p>
+                </div>
+            `;
+        }
+
+        // Get emoji for mood
+        function getMoodEmoji(mood) {
+            const emojis = {
+                happy: '😄',
+                neutral: '😐',
+                sad: '😢',
+                angry: '😡',
+                tired: '😴',
+            };
+            return emojis[mood] || '🤔';
+        }
+
+        // Get text for mood
+        function getMoodText(mood) {
+            const texts = {
+                happy: 'Happy',
+                neutral: 'Neutral',
+                sad: 'Sad',
+                angry: 'Angry',
+                tired: 'Tired',
+            };
+            return texts[mood] || 'Unknown';
+        }
+
+        // Get color for mood
+        function getMoodColor(mood) {
+            const colors = {
+                happy: 'bg-yellow-300',
+                neutral: 'bg-blue-300',
+                sad: 'bg-blue-500',
+                angry: 'bg-red-400',
+                tired: 'bg-purple-400',
+            };
+            return colors[mood] || 'bg-gray-200 dark:bg-gray-600';
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            const darkModeToggle = getElement('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            try {
+                localStorage.setItem('darkMode', isDarkMode);
+            } catch (e) {
+                console.warn('Error saving dark mode preference:', e);
+            }
+
+            const icon = document.querySelector('#darkModeToggle i');
+            if (icon) {
+                if (isDarkMode) {
+                    icon.classList.remove('fa-moon', 'text-gray-600');
+                    icon.classList.add('fa-sun', 'text-yellow-300');
+                } else {
+                    icon.classList.remove('fa-sun', 'text-yellow-300');
+                    icon.classList.add('fa-moon', 'text-gray-600');
+                }
+            }
+
+            if (checkDependencies()) {
+                updateChartColors();
+            }
+        }
+
+        // Scroll to reflect section
+        function scrollToReflect() {
+            const reflectSection = getElement('reflect');
+            if (reflectSection) {
+                reflectSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Select mood for reflection
+        function selectMood(mood) {
+            const selectedMood = getElement('selectedMood');
+            if (!selectedMood) return;
+            selectedMood.value = mood;
+
+            document.querySelectorAll('.mood-emoji').forEach((btn) => {
+                btn.classList.remove('ring-2', 'ring-deep-purple', 'dark:ring-purple-300');
+            });
+
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('ring-2', 'ring-deep-purple', 'dark:ring-purple-300');
+            }
+        }
+
+        // Generate new reflection prompt
+        function newPrompt() {
+            const prompts = [
+                "What moment made you smile today?",
+                "What drained your energy today?",
+                "What are you grateful for today?",
+                "What challenged you today?",
+                "What did you learn about yourself today?",
+                "What would make tomorrow better?",
+                "How did you take care of yourself today?",
+                "What emotion was strongest today?",
+                "What are you looking forward to tomorrow?",
+                "What made you proud of yourself today?",
+            ];
+
+            const reflectionPrompt = getElement('reflectionPrompt');
+            if (reflectionPrompt) {
+                reflectionPrompt.textContent = prompts[Math.floor(Math.random() * prompts.length)];
+            }
+        }
+
+        // Submit reflection
+        function submitReflection() {
+            const selectedMood = getElement('selectedMood');
+            const reflectionText = getElement('reflectionText');
+            const reflectionPrompt = getElement('reflectionPrompt');
+            if (!selectedMood || !reflectionText || !reflectionPrompt) return;
+
+            const mood = selectedMood.value;
+            const text = reflectionText.value.trim();
+            const prompt = reflectionPrompt.textContent;
+
+            if (!mood) {
+                alert('Please select how you are feeling today.');
+                return;
+            }
+
+            if (!text) {
+                alert('Please write your reflection before submitting.');
+                return;
+            }
+
+            let userData;
+            try {
+                userData = JSON.parse(localStorage.getItem('mindMirrorUser'));
+                if (!userData) throw new Error('No user data found');
+            } catch (e) {
+                console.warn('Error loading user data:', e);
+                alert('Error saving reflection. Please try again.');
+                return;
+            }
+
+            const today = formatLocalDate(new Date());
+            const existingReflectionIndex = userData.reflections.findIndex((r) => r.date === today);
+
+            const reflection = {
+                date: today,
+                mood: mood,
+                prompt: prompt,
+                text: text,
+                affirmation: generateAffirmationFromText(text),
+            };
+
+            if (existingReflectionIndex !== -1) {
+                userData.reflections[existingReflectionIndex] = reflection;
+            } else {
+                userData.reflections.push(reflection);
+            }
+
+            try {
+                localStorage.setItem('mindMirrorUser', JSON.stringify(userData));
+            } catch (e) {
+                console.warn('Error saving reflection:', e);
+                alert('Error saving reflection. Please check your browser settings.');
+                return;
+            }
+
+            const reflectionForm = getElement('reflectionForm');
+            const reflectionSuccess = getElement('reflectionSuccess');
+            if (reflectionForm && reflectionSuccess) {
+                reflectionForm.classList.add('hidden');
+                reflectionSuccess.classList.remove('hidden');
+            }
+
+            displayTodayMood(mood);
+            renderRecentReflections();
+            updateCalendar();
+            if (checkDependencies()) {
+                initCharts();
+            }
+        }
+
+        // Reset reflection form
+        function resetReflectionForm() {
+            const selectedMood = getElement('selectedMood');
+            const reflectionText = getElement('reflectionText');
+            const reflectionForm = getElement('reflectionForm');
+            const reflectionSuccess = getElement('reflectionSuccess');
+            if (!selectedMood || !reflectionText || !reflectionForm || !reflectionSuccess) return;
+
+            selectedMood.value = '';
+            reflectionText.value = '';
+            document.querySelectorAll('.mood-emoji').forEach((btn) => {
+                btn.classList.remove('ring-2', 'ring-deep-purple', 'dark:ring-purple-300');
+            });
+
+            reflectionForm.classList.remove('hidden');
+            reflectionSuccess.classList.add('hidden');
+
+            newPrompt();
+        }
+
+        // Render recent reflections
+        function renderRecentReflections() {
+            const container = getElement('recentReflections');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let userData;
+            try {
+                userData = JSON.parse(localStorage.getItem('mindMirrorUser'));
+                if (!userData) throw new Error('No user data found');
+            } catch (e) {
+                console.warn('Error loading user data:', e);
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">Error loading reflections. Please try again.</p>';
+                return;
+            }
+
+            const recentReflections = [...userData.reflections].reverse().slice(0, 6);
+
+            if (recentReflections.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 col-span-full text-center py-8">No reflections yet. Start your journey today!</p>';
+                return;
+            }
+
+            recentReflections.forEach((reflection) => {
+                const date = new Date(reflection.date);
+                const formattedDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const moodEmoji = getMoodEmoji(reflection.mood);
+                const moodColor = getMoodColor(reflection.mood);
+
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-gray-700 rounded-lg shadow-sm p-5 hover:shadow-md transition-all fade-in';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-full ${moodColor} flex items-center justify-center text-white text-sm">${moodEmoji}</div>
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${formattedDate}</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">${reflection.text}</p>
+                    <p class="mt-2 text-xs italic text-gray-500 dark:text-gray-400">"${reflection.prompt}"</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Generate affirmation from reflection text
+        function generateAffirmationFromText(text) {
+            const positiveWords = ['happy', 'grateful', 'proud', 'love', 'success', 'great', 'wonderful', 'amazing'];
+            const containsPositive = positiveWords.some((word) => text.toLowerCase().includes(word));
+
+            const affirmations = containsPositive
+                ? [
+                      "You are radiating positivity today!",
+                      "Your strength shines through in every moment.",
+                      "You are making incredible progress.",
+                      "Your happiness is contagious!",
+                  ]
+                : [
+                      "You are stronger than your challenges.",
+                      "Every step you take is growth.",
+                      "You are capable of overcoming anything.",
+                      "Your resilience is inspiring.",
+                  ];
+
+            return affirmations[Math.floor(Math.random() * affirmations.length)];
+        }
+
+        // Generate new affirmation
+        async function generateAffirmation() {
+            const affirmationDisplay = getElement('affirmationDisplay');
+            const affirmationText = getElement('affirmationText');
+            const affirmationLoading = getElement('affirmationLoading');
+            if (!affirmationDisplay || !affirmationText || !affirmationLoading) return;
+
+            affirmationText.classList.add('hidden');
+            affirmationLoading.classList.remove('hidden');
+
+            try {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                const affirmations = [
+                    "You are capable of amazing things.",
+                    "Your journey is uniquely yours, and it's beautiful.",
+                    "Every challenge is an opportunity for growth.",
+                    "You are enough just as you are.",
+                    "Your thoughts shape your reality.",
+                    "You have the power to create change.",
+                    "Your resilience is your superpower.",
+                ];
+                const newAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+                affirmationText.textContent = `"${newAffirmation}"`;
+
+                let userData;
+                try {
+                    userData = JSON.parse(localStorage.getItem('mindMirrorUser'));
+                    if (!userData) throw new Error('No user data found');
+                    userData.affirmations.push(newAffirmation);
+                    localStorage.setItem('mindMirrorUser', JSON.stringify(userData));
+                } catch (e) {
+                    console.warn('Error saving affirmation:', e);
+                    alert('Error saving affirmation. Please try again.');
+                }
+            } catch (e) {
+                console.warn('Error generating affirmation:', e);
+            } finally {
+                affirmationLoading.classList.add('hidden');
+                affirmationText.classList.remove('hidden');
+            }
+        }
+
+        // Initialize charts
+        let weeklyMoodChartInstance = null;
+        let moodTrendChartInstance = null;
+
+        function initCharts() {
+            if (!checkDependencies()) return;
+
+            const weeklyCanvas = getElement('weeklyMoodChart');
+            const trendCanvas = getElement('moodTrendChart');
+            if (!weeklyCanvas || !trendCanvas) return;
+
+            const ctxWeekly = weeklyCanvas.getContext && weeklyCanvas.getContext('2d');
+            const ctxTrend = trendCanvas.getContext && trendCanvas.getContext('2d');
+            if (!ctxWeekly || !ctxTrend) {
+                console.warn('Failed to get 2D context for charts');
+                return;
+            }
+
+            let userData;
+            try {
+                userData = JSON.parse(localStorage.getItem('mindMirrorUser'));
+                if (!userData) throw new Error('No user data found');
+            } catch (e) {
+                console.warn('Error loading user data for charts:', e);
+                return;
+            }
+
+            const reflections = userData.reflections;
+
+            // Weekly Mood Chart
+            if (weeklyMoodChartInstance) {
+                weeklyMoodChartInstance.destroy();
+                weeklyMoodChartInstance = null;
+            }
+
+            try {
+                weeklyMoodChartInstance = new Chart(ctxWeekly, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                        datasets: [{
+                            label: 'Mood Score',
+                            data: getWeeklyMoodData(reflections),
+                            backgroundColor: document.documentElement.classList.contains('dark')
+                                ? ['#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf']
+                                : ['#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84'],
+                            borderColor: document.documentElement.classList.contains('dark') ? '#fefcbf' : '#5e2a84',
+                            borderWidth: 1,
+                        }],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 5,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: (value) => ['Terrible', 'Sad', 'Neutral', 'Good', 'Great'][value - 1] || '',
+                                },
+                            },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                        },
+                    },
+                });
+            } catch (e) {
+                console.warn('Error initializing weekly mood chart:', e);
+            }
+
+            // Mood Trend Chart
+            if (moodTrendChartInstance) {
+                moodTrendChartInstance.destroy();
+                moodTrendChartInstance = null;
+            }
+
+            try {
+                moodTrendChartInstance = new Chart(ctxTrend, {
+                    type: 'line',
+                    data: {
+                        labels: getMoodTrendData(reflections).labels,
+                        datasets: [{
+                            label: 'Mood Trend',
+                            data: getMoodTrendData(reflections).data,
+                            borderColor: document.documentElement.classList.contains('dark') ? '#fefcbf' : '#5e2a84',
+                            backgroundColor: document.documentElement.classList.contains('dark')
+                                ? 'rgba(254, 252, 191, 0.3)'
+                                : 'rgba(94, 42, 132, 0.3)',
+                            fill: true,
+                            tension: 0.4,
+                        }],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 5,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: (value) => ['Terrible', 'Sad', 'Neutral', 'Great'][value - 1] || '',
+                                },
+                            },
+                        },
+                        plugins: {
+                            legend: { display: false },
+                        },
+                    },
+                });
+            } catch (e) {
+                console.warn('Error initializing mood trend chart:', e);
+            }
+        }
+
+        // Update chart colors without reinitializing
+        function updateChartColors() {
+            if (weeklyMoodChartInstance) {
+                try {
+                    weeklyMoodChartInstance.data.datasets[0].backgroundColor = document.documentElement.classList.contains('dark')
+                        ? ['#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf', '#fefcbf']
+                        : ['#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84', '#5e2a84'];
+                    weeklyMoodChartInstance.data.datasets[0].borderColor = document.documentElement.classList.contains('dark') ? '#fefcbf' : '#5e2a84';
+                    weeklyMoodChartInstance.update();
+                } catch (e) {
+                    console.warn('Error updating weekly chart colors:', e);
+                }
+            }
+
+            if (moodTrendChartInstance) {
+                try {
+                    moodTrendChartInstance.data.datasets[0].borderColor = document.documentElement.classList.contains('dark') ? '#fefcbf' : '#5e2a84';
+                    moodTrendChartInstance.data.datasets[0].backgroundColor = document.documentElement.classList.contains('dark')
+                        ? 'rgba(254, 252, 191, 0.3)'
+                        : 'rgba(94, 42, 132, 0.3)';
+                    moodTrendChartInstance.update();
+                } catch (e) {
+                    console.warn('Error updating mood trend chart colors:', e);
+                }
+            }
+        }
+
+        // Get weekly mood data
+        function getWeeklyMoodData(reflections) {
+            const today = new Date();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay());
+            const weekData = Array(7).fill(0);
+
+            (reflections || []).forEach((reflection) => {
+                try {
+                    const date = new Date(reflection.date);
+                    const dayOfWeek = date.getDay();
+                    const isThisWeek = formatLocalDate(date) >= formatLocalDate(startOfWeek) &&
+                                       date <= new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+
+                    if (isThisWeek) {
+                        const moodScore = {
+                            angry: 1,
+                            sad: 2,
+                            neutral: 3,
+                            tired: 3,
+                            happy: 5,
+                        }[reflection.mood] || 0;
+                        weekData[dayOfWeek] = moodScore;
+                    }
+                } catch (e) {
+                    console.warn('Error processing reflection for weekly mood data:', e);
+                }
+            });
+
+            return weekData;
+        }
+
+        // Get mood trend data
+        function getMoodTrendData(reflections) {
+            const last30Days = Array(30).fill(0).map((_, i) => {
+                const date = new Date();
+                date.setDate(date.getDate() - (29 - i));
+                return formatLocalDate(date);
+            });
+
+            const data = last30Days.map((date) => {
+                const reflection = (reflections || []).find((r) => r.date === date);
+                if (!reflection) return 0;
+                return {
+                    angry: 1,
+                    sad: 2,
+                    neutral: 3,
+                    tired: 3,
+                    happy: 5,
+                }[reflection.mood] || 0;
+            });
+
+            return {
+                labels: last30Days.map((date) => new Date(date).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })),
+                data,
+            };
+        }
+
+        // Update calendar
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        function updateCalendar() {
+            let userData;
+            try {
+                userData = JSON.parse(localStorage.getItem('mindMirrorUser'));
+                if (!userData) throw new Error('No user data found');
+            } catch (e) {
+                console.warn('Error loading user data for calendar:', e);
+                return;
+            }
+
+            const reflections = userData.reflections;
+            const calendarGrid = getElement('calendarGrid');
+            const currentMonthYear = getElement('currentMonthYear');
+            if (!calendarGrid || !currentMonthYear) return;
+
+            try {
+                currentMonthYear.textContent = new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+                const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+                calendarGrid.innerHTML = '';
+
+                for (let i = 0; i < firstDayOfMonth; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'text-center p-2';
+                    calendarGrid.appendChild(emptyCell);
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(currentYear, currentMonth, day);
+                    const dateStr = formatLocalDate(date);
+                    const reflection = reflections.find((r) => r.date === dateStr);
+                    const moodColor = reflection ? getMoodColor(reflection.mood) : 'bg-gray-200 dark:bg-gray-600';
+
+                    const dayCell = document.createElement('div');
+                    dayCell.className = `text-center p-2 rounded-full cursor-pointer hover:shadow-sm transition-all ${moodColor} text-sm sm:text-base`;
+                    dayCell.textContent = day;
+                    dayCell.addEventListener('click', () => showDayReflection(dateStr, reflection));
+                    calendarGrid.appendChild(dayCell);
+                }
+
+                updateStats(reflections);
+            } catch (e) {
+                console.warn('Error updating calendar:', e);
+            }
+        }
+
+        // Show reflection for selected day
+        function showDayReflection(date, reflection) {
+            const dayReflection = getElement('dayReflection');
+            const selectedDayTitle = getElement('selectedDayTitle');
+            const selectedDayMood = getElement('selectedDayMood');
+            const selectedDayMoodText = getElement('selectedDayMoodText');
+            const selectedDayReflection = getElement('selectedDayReflection');
+            const selectedDayAffirmation = getElement('selectedDayAffirmation');
+            if (!dayReflection || !selectedDayTitle || !selectedDayMood || !selectedDayMoodText || !selectedDayReflection || !selectedDayAffirmation) return;
+
+            if (!reflection) {
+                dayReflection.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                });
+                selectedDayTitle.textContent = formattedDate;
+                selectedDayMood.className = `w-6 sm:w-8 h-6 sm:h-8 rounded-full ${getMoodColor(reflection.mood)} flex items-center justify-center mr-3`;
+                selectedDayMood.textContent = getMoodEmoji(reflection.mood);
+                selectedDayMoodText.textContent = getMoodText(reflection.mood);
+                selectedDayReflection.textContent = reflection.text;
+                selectedDayAffirmation.textContent = `"${reflection.affirmation}"`;
+
+                dayReflection.classList.remove('hidden');
+            } catch (e) {
+                console.warn('Error showing day reflection:', e);
+            }
+        }
+
+        // Update stats
+        function updateStats(reflections) {
+            const mostReflectiveDay = getElement('mostReflectiveDay');
+            const currentStreak = getElement('currentStreak');
+            const awarenessScore = getElement('awarenessScore');
+            if (!mostReflectiveDay || !currentStreak || !awarenessScore) return;
+
+            try {
+                const dayCounts = Array(7).fill(0);
+                (reflections || []).forEach((reflection) => {
+                    const date = new Date(reflection.date);
+                    const day = date.getDay();
+                    dayCounts[day]++;
+                });
+                const maxDay = dayCounts.indexOf(Math.max(...dayCounts));
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                mostReflectiveDay.textContent = days[maxDay] || 'None';
+
+                let streak = 0;
+                let currentDate = new Date();
+                while ((reflections || []).some((r) => r.date === formatLocalDate(currentDate))) {
+                    streak++;
+                    currentDate.setDate(currentDate.getDate() - 1);
+                }
+                currentStreak.textContent = `${streak} day${streak !== 1 ? 's' : ''}`;
+
+                const totalReflections = (reflections || []).length;
+                const avgLength = (reflections || []).reduce((sum, r) => sum + r.text.length, 0) / (totalReflections || 1);
+                const score = Math.min(100, Math.round(totalReflections * 2 + avgLength / 10));
+                awarenessScore.textContent = `${score}/100`;
+            } catch (e) {
+                console.warn('Error updating stats:', e);
+            }
+        }
+
+        // Navigate to previous month
+        function prevMonth() {
+            try {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                if (currentYear < 1970) {
+                    currentYear = 1970;
+                    currentMonth = 0;
+                }
+                updateCalendar();
+            } catch (e) {
+                console.warn('Error navigating to previous month:', e);
+            }
+        }
+
+        // Navigate to next month
+        function nextMonth() {
+            try {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                if (currentYear > new Date().getFullYear() + 1) {
+                    currentYear = new Date().getFullYear() + 1;
+                    currentMonth = 11;
+                }
+                updateCalendar();
+            } catch (e) {
+                console.warn('Error navigating to next month:', e);
+            }
+        }
+
+        // Voice input
+        document.querySelector('[title="Voice input"]')?.addEventListener('click', () => {
+            if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+                console.warn('Speech recognition not supported in this browser');
+                alert('Voice input is not supported in this browser. Please type your reflection.');
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            try {
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.start();
+                recognition.onresult = (event) => {
+                    try {
+                        const transcript = event.results[0][0].transcript;
+                        const reflectionText = getElement('reflectionText');
+                        if (reflectionText) {
+                            reflectionText.value += transcript;
+                        }
+                    } catch (e) {
+                        console.warn('Error processing speech recognition result:', e);
+                    }
+                };
+                recognition.onerror = (event) => {
+                    console.warn('Speech recognition error:', event.error);
+                    alert(`Speech recognition failed: ${event.error}. Please try again or type your reflection.`);
+                };
+                recognition.onend = () => {
+                    recognition.stop();
+                };
+            } catch (e) {
+                console.warn('Error starting speech recognition:', e);
+                alert('Error starting speech recognition. Please try again or type your reflection.');
+            }
+        });
+
+        // Basic text formatting (bold)
+        document.querySelector('[title="Format text"]')?.addEventListener('click', () => {
+            const textarea = getElement('reflectionText');
+            if (!textarea) return;
+            try {
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const selectedText = textarea.value.substring(start, end);
+                if (selectedText) {
+                    textarea.value = textarea.value.substring(0, start) + `**${selectedText}**` + textarea.value.substring(end);
+                }
+            } catch (e) {
+                console.warn('Error applying text formatting:', e);
+            }
+        });
+    </script>
+</body>
+</html>
